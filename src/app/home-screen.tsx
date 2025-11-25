@@ -27,7 +27,7 @@ export const HomeScreen = () => {
                 </div>
 
                 <div className="mt-6 flex items-center gap-3">
-                    <p>LOGOS</p>
+                    <p>LOGO</p>
                 </div>
             </div>
         </div>
