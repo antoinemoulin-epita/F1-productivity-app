@@ -21,7 +21,7 @@ export const HomeScreen = () => {
                 <p className="mt-2 max-w-xl text-center text-lg text-tertiary">You can access to all the pages from here</p>
 
                 <div className="relative mt-6 flex h-10 items-center rounded-lg border border-secondary bg-secondary">
-                    <code className="px-3 font-mono text-secondary">npx untitledui@latest add</code>
+                    <code className="px-3 font-mono text-secondary">search page</code>
 
                     <hr className="h-10 w-px bg-border-secondary" />
                 </div>
