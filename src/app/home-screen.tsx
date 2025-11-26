@@ -3,7 +3,7 @@
 import { BookOpen01, Check, Copy01, Cube01, HelpCircle } from "@untitledui/icons";
 import { Button } from "@/components/base/buttons/button";
 import { ButtonUtility } from "@/components/base/buttons/button-utility";
-import { UntitledLogoMinimal } from "@/components/foundations/logo/untitledui-logo-minimal";
+import { DeveloperIndex } from "@/components/shared-assets/developer-index/developer-index";
 import { useClipboard } from "@/hooks/use-clipboard";
 
 export const HomeScreen = () => {
@@ -21,9 +21,7 @@ export const HomeScreen = () => {
                 <p className="mt-2 max-w-xl text-center text-lg text-tertiary">You can access to all the pages from here</p>
 
                 <div className="relative mt-6 flex h-10 items-center rounded-lg border border-secondary bg-secondary">
-                    <code className="px-3 font-mono text-secondary">search page</code>
-
-                    <hr className="h-10 w-px bg-border-secondary" />
+                    <DeveloperIndex />
                 </div>
 
                 <div className="mt-6 flex items-center gap-3">

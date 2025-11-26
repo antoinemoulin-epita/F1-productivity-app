@@ -1,12 +1,12 @@
 "use client";
 
 import type { ReactNode } from "react";
-import { useRef, useState } from "react";
-import { ChevronDown } from "@untitledui/icons";
+import { useEffect, useRef, useState } from "react";
+import { ChevronDown, Moon01, Sun } from "@untitledui/icons";
 import { Button as AriaButton, Dialog as AriaDialog, DialogTrigger as AriaDialogTrigger, Popover as AriaPopover } from "react-aria-components";
 import { Button } from "@/components/base/buttons/button";
-import { UntitledLogo } from "@/components/foundations/logo/untitledui-logo";
-import { UntitledLogoMinimal } from "@/components/foundations/logo/untitledui-logo-minimal";
+import { ThemeToggle } from "@/components/base/buttons/theme-toggle";
+import Logo from "@/components/foundations/logo/logo";
 import { DropdownMenuSimple } from "@/components/marketing/header-navigation/dropdown-header-navigation";
 import { cx } from "@/utils/cx";
 
@@ -114,10 +114,10 @@ export const Header = ({ items = headerNavItems, isFullWidth, isFloating, classN
                 >
                     <div className="flex flex-1 items-center gap-5">
                         <div className="my-auto mb-0.5 h-8 items-center font-black md:max-lg:hidden">
-                            <h1 className="font-black">Monki</h1>
+                            <Logo />
                         </div>
                         <div className="my-auto mb-0.5 hidden h-8 items-center font-black md:inline-block lg:hidden">
-                            <h3 className="font-black">Monki</h3>
+                            <Logo />
                         </div>
 
                         {/* Desktop navigation */}
@@ -176,13 +176,18 @@ export const Header = ({ items = headerNavItems, isFullWidth, isFloating, classN
                         </nav>
                     </div>
 
-                    <div className="hidden items-center gap-3 md:flex">
-                        <Button color="secondary" size={isFloating ? "md" : "lg"} href="/login">
-                            Se connecter
-                        </Button>
-                        <Button color="primary" size={isFloating ? "md" : "lg"} href="/signup">
-                            S'inscrire
-                        </Button>
+                    <div className="flex items-center gap-2 md:gap-3">
+                        {/* Theme toggle button */}
+                        <ThemeToggle />
+
+                        <div className="hidden items-center gap-3 md:flex">
+                            <Button color="secondary" size={isFloating ? "md" : "lg"} href="/login">
+                                Se connecter
+                            </Button>
+                            <Button color="primary" size={isFloating ? "md" : "lg"} href="/signup">
+                                S'inscrire
+                            </Button>
+                        </div>
                     </div>
 
                     {/* Mobile menu and menu trigger */}
