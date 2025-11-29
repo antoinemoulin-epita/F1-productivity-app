@@ -1,11 +1,21 @@
-import React from "react";
+"use client";
 
-const Logo = (className: string) => {
+import React from "react";
+import { useTheme } from "next-themes";
+
+interface LogoProps {
+    className?: string;
+}
+
+const Logo = ({ className = "" }: LogoProps) => {
+    const { theme } = useTheme();
+    
+    // Afficher le logo dark en mode dark, light en mode light
+    const logoSrc = theme === "dark" ? "/logo/dark-logo.svg" : "/logo/light-logo.svg";
+    
     return (
-        <div className={"cursor-pointer " + className}>
-            <h1 className="font-black" onClick={() => (window.location.href = "/landing")}>
-                VROOM
-            </h1>
+        <div className={"cursor-pointer " + className} onClick={() => (window.location.href = "/landing")}>
+            <img src={logoSrc} alt="Logo" />
         </div>
     );
 };
