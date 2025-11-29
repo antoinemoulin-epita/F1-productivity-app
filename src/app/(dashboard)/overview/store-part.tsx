@@ -149,7 +149,7 @@ const StorePart = () => {
                 </div>
 
                 {/* Lootbox list */}
-                <div className="flex flex-1 flex-col gap-2 bg-gray-50/50 p-3 dark:bg-gray-900/30">
+                <div className="flex flex-1 flex-col justify-around bg-gray-50/50 p-3 dark:bg-gray-900/30">
                     {lootboxes.map((item, index) => (
                         <MiniLootboxCard key={item.type} item={item} index={index} onBuy={handleBuy} />
                     ))}

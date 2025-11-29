@@ -8,7 +8,7 @@ import { SocialButton } from "@/components/base/buttons/social-button";
 import { Form } from "@/components/base/form/form";
 import { Input } from "@/components/base/input/input";
 import Logo from "@/components/foundations/logo/logo";
-import { StatsCardMockupCarousel } from "@/app/signup/stats-card-mockup-carousel";
+import { StatsCardMockupCarousel } from "./stats-card-mockup-carousel";
 
 export const Signup = () => {
     return (

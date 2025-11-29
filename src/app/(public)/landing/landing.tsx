@@ -30,44 +30,91 @@ export const Landing = () => {
             <section className="relative overflow-hidden pt-16 md:pb-24">
                 <div className="mx-auto flex max-w-container flex-col gap-16 px-4 md:px-8 lg:flex-row lg:items-center lg:gap-8">
                     <div className="flex w-full max-w-3xl flex-1 flex-col">
-                        <h1 className="text-display-md font-semibold text-primary md:text-display-lg lg:text-display-xl">Gamifiez vos défis en groupe</h1>
+                        {/* Badge */}
+                        <div className="mb-4 flex items-center gap-2">
+                            <span className="inline-flex items-center gap-1.5 rounded-full bg-brand-50 px-3 py-1 text-sm font-medium text-brand-700 dark:bg-brand-950/50 dark:text-brand-300">
+                                <span className="size-1.5 animate-pulse rounded-full bg-brand-500" />
+                                Bêta ouverte
+                            </span>
+                        </div>
+
+                        <h1 className="text-display-md font-semibold text-primary md:text-display-lg lg:text-display-xl">
+                            Complétez vos tâches.
+                            <br />
+                            <span className="text-brand-500">Gagnez la course.</span>
+                        </h1>
+
                         <p className="mt-4 max-w-120 text-lg text-balance text-tertiary md:mt-6 md:text-xl">
-                            Créez des salons permanents, lancez des courses hebdomadaires, complétez des tâches et accumulez des points. Pilotez votre voiture
-                            vers la victoire et dominez votre ligue.{" "}
+                            Rejoignez vos amis dans des courses de productivité. Chaque tâche validée fait avancer votre voiture. 
+                            Premier à la ligne d'arrivée, premier au classement.
                         </p>
 
+                        {/* Join with code - Primary CTA */}
                         <Form
                             onSubmit={(e) => {
                                 e.preventDefault();
                                 const data = Object.fromEntries(new FormData(e.currentTarget));
-                                console.log("Form data:", data);
+                                console.log("Joining salon with code:", data.code);
                             }}
-                            className="mt-8 flex w-full flex-col items-stretch gap-4 md:mt-12 md:max-w-120 md:flex-row md:items-start"
+                            className="mt-8 flex w-full flex-col items-stretch gap-3 md:mt-10 md:max-w-md"
                         >
-                            <Input
-                                isRequired
-                                size="md"
-                                name="email"
-                                type="email"
-                                placeholder="votre@email.com"
-                                wrapperClassName="md:py-0.5"
-                                hint={
-                                    <span>
-                                        Nous respectons vos données - consultez notre{" "}
-                                        <a
-                                            href="#"
-                                            className="rounded-xs underline underline-offset-3 outline-focus-ring focus-visible:outline-2 focus-visible:outline-offset-2"
-                                        >
-                                            politique de confidentialité
-                                        </a>
-                                        .
-                                    </span>
-                                }
-                            />
-                            <Button type="submit" size="xl">
-                                Commencer maintenant
-                            </Button>
+                            <div className="flex flex-col gap-3 sm:flex-row sm:items-start">
+                                <Input
+                                    isRequired
+                                    size="md"
+                                    name="code"
+                                    type="text"
+                                    placeholder="Code salon (ex: ABC123)"
+                                    wrapperClassName="md:py-0.5 flex-1"
+                                    className="uppercase tracking-widest"
+                                    maxLength={6}
+                                />
+                                <Button type="submit" size="xl" className="shrink-0">
+                                    Rejoindre
+                                </Button>
+                            </div>
+                            <p className="text-sm text-tertiary">
+                                Rejoignez en 5 secondes, sans compte requis.
+                            </p>
                         </Form>
+
+                        {/* Secondary CTA */}
+                        <div className="mt-6 flex items-center gap-4">
+                            <span className="text-sm text-quaternary">ou</span>
+                            <a
+                                href="/signup"
+                                className="group inline-flex items-center gap-1.5 text-sm font-medium text-secondary transition-colors hover:text-primary"
+                            >
+                                Créer un salon
+                                <svg
+                                    className="size-4 transition-transform group-hover:translate-x-0.5"
+                                    fill="none"
+                                    viewBox="0 0 24 24"
+                                    stroke="currentColor"
+                                    strokeWidth={2}
+                                >
+                                    <path strokeLinecap="round" strokeLinejoin="round" d="M14 5l7 7m0 0l-7 7m7-7H3" />
+                                </svg>
+                            </a>
+                        </div>
+
+                        {/* Social proof */}
+                        <div className="mt-10 flex items-center gap-6 border-t border-secondary pt-6">
+                            <div className="flex flex-col">
+                                <span className="text-2xl font-bold text-primary">500+</span>
+                                <span className="text-sm text-tertiary">Pilotes actifs</span>
+                            </div>
+                            <div className="h-8 w-px bg-secondary" />
+                            <div className="flex flex-col">
+                                <span className="text-2xl font-bold text-primary">2K+</span>
+                                <span className="text-sm text-tertiary">Tâches validées</span>
+                            </div>
+                            <div className="h-8 w-px bg-secondary" />
+                            <div className="flex flex-col">
+                                <span className="text-2xl font-bold text-primary">50+</span>
+                                <span className="text-sm text-tertiary">Salons créés</span>
+                            </div>
+                        </div>
                     </div>
 
                     <div className="relative flex h-90 w-full items-start justify-center lg:h-128 lg:flex-1 lg:items-center">
@@ -78,14 +125,14 @@ export const Landing = () => {
                                     <div className="relative overflow-hidden rounded-[6.77px] bg-utility-gray-50 ring-[0.56px] ring-utility-gray-200 md:rounded-[20.21px] md:ring-[1.68px]">
                                         {/* Light mode image (hidden in dark mode) */}
                                         <img
-                                            alt="Dashboard mockup showing application interface"
-                                            src="/img10.jpg"
+                                            alt="Dashboard VROOM montrant une course en direct"
+                                            src="/example02.png"
                                             className="max-w-5xl object-cover dark:hidden"
                                         />
                                         {/* Dark mode image (hidden in light mode) */}
                                         <img
-                                            alt="Dashboard mockup showing application interface"
-                                            src="/img10.jpg"
+                                            alt="Dashboard VROOM montrant une course en direct"
+                                            src="/example02.png"
                                             className="max-w-5xl object-cover not-dark:hidden"
                                         />
                                     </div>
@@ -99,9 +146,9 @@ export const Landing = () => {
                                 <div className="size-full rounded-[20.91px] bg-primary p-1 shadow-modern-mockup-inner-md md:shadow-modern-mockup-inner-lg">
                                     <div className="relative size-full overflow-hidden rounded-[17.92px] bg-utility-gray-50 ring-[1.5px] ring-utility-gray-200">
                                         {/* Light mode image (hidden in dark mode) */}
-                                        <img alt="Mobile app interface mockup" src="/img06-alt.png" className="size-full object-cover dark:hidden" />
+                                        <img alt="Interface mobile VROOM" src="/img06-alt.png" className="size-full object-cover dark:hidden" />
                                         {/* Dark mode image (hidden in light mode) */}
-                                        <img alt="Mobile app interface mockup" src="/img06-alt.png" className="size-full object-cover not-dark:hidden" />
+                                        <img alt="Interface mobile VROOM" src="/img06-alt.png" className="size-full object-cover not-dark:hidden" />
                                     </div>
                                 </div>
                             </div>

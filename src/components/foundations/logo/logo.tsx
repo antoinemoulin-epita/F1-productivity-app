@@ -10,14 +10,14 @@ interface LogoProps {
 const Logo = ({ className = "" }: LogoProps) => {
     const { theme } = useTheme();
     
-    // Afficher le logo dark en mode dark, light en mode light
-    const logoSrc = theme === "dark" ? "/logo/dark-logo.svg" : "/logo/light-logo.svg";
+     const logoSrc = theme === "dark" ? "/logo/light-logo.svg" : "/logo/dark-logo.svg";
     
     return (
-        <div className={"cursor-pointer " + className} onClick={() => (window.location.href = "/landing")}>
-            <img src={logoSrc} alt="Logo" />
+        <div className={"cursor-pointer " + className} onClick={() => (window.location.href = "/")}>
+            <img src={logoSrc} alt="Logo" className="w-24"/>
         </div>
     );
 };
 
 export default Logo;
+

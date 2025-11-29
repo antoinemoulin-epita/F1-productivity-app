@@ -323,7 +323,7 @@ function RaceTrackProgress({ progress, position, totalParticipants, participants
                         >
                             <div
                                 className={cx(
-                                    "size-3 -translate-x-1/2 rounded-full border-2 border-white shadow-sm dark:border-gray-900",
+                                    "size-4 -translate-x-1/2 rounded-full border-3 border-white shadow-sm dark:border-gray-900",
                                     p.isCurrentUser
                                         ? "bg-brand-600"
                                         : "bg-gray-400 dark:bg-gray-500",
@@ -335,7 +335,7 @@ function RaceTrackProgress({ progress, position, totalParticipants, participants
             </div>
 
             {/* Leaderboard cards - more compact */}
-            <div className="grid grid-cols-5 gap-1.5">
+            <div className="grid grid-cols-5 gap-2">
                 {topParticipants.map((p) => (
                     <motion.div
                         key={p.id}
@@ -343,14 +343,18 @@ function RaceTrackProgress({ progress, position, totalParticipants, participants
                         animate={{ opacity: 1, y: 0 }}
                         transition={{ delay: 0.1 + p.position * 0.05 }}
                         className={cx(
-                            "relative flex flex-col items-center gap-1 rounded-lg py-2 transition-colors",
+                            "relative flex flex-col items-center gap-0 rounded-lg py-2 transition-colors",
                             p.isCurrentUser
                                 ? "bg-brand-50 ring-1 ring-brand-200 dark:bg-brand-950/30 dark:ring-brand-800"
-                                : "bg-gray-50 dark:bg-gray-800/50",
+                                : "bg-gray-50 dark:bg-gray-800/50 hover:bg-gray-100",
                         )}
                     >
                         {/* Position badge */}
-                        <div
+                        <section className="w-full flex flex-row justify-between items-center px-2"> 
+                            <div className="flex flex-row items-center gap-1">
+
+                            
+                            <div
                             className={cx(
                                 "flex size-6 items-center justify-center rounded-md text-[11px] font-bold",
                                 p.position === 1
@@ -373,15 +377,20 @@ function RaceTrackProgress({ progress, position, totalParticipants, participants
                             )}
                         >
                             {p.isCurrentUser ? "Toi" : p.username}
-                        </span>
-
-                        {/* Progress */}
+                        </span></div>
+                        <div>
+                              {/* Progress */}
                         <span className={cx(
                             "font-mono text-[10px]",
                             p.isCurrentUser ? "text-brand-600 dark:text-brand-500" : "text-tertiary",
                         )}>
                             {p.progress}%
                         </span>
+                        </div>
+                        </section>
+                       
+
+                      
                     </motion.div>
                 ))}
             </div>
