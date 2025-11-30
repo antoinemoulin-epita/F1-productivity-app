@@ -587,38 +587,36 @@ export default function CurrentSeasonWidget() {
     return (
         <div className="h-full rounded-2xl bg-gray-100 p-3 ring-1 ring-primary/10 transition-all duration-300 hover:ring-primary/20 dark:bg-gray-900">
             <div className="flex h-full flex-col overflow-hidden rounded-xl bg-white dark:bg-gray-800">
-                {/* ============================================ */}
+{/* ============================================ */}
                 {/* HEADER */}
                 {/* ============================================ */}
-                <div className="shrink-0 flex items-center justify-between border-b border-gray-100 px-5 py-4 dark:border-gray-700/50">
+                <div className="shrink-0 flex items-start justify-between border-b border-gray-100 px-5 py-4 dark:border-gray-700/50">
                     <div className="flex flex-col gap-0.5">
-                        <div className="flex items-center gap-2">
-                            <h2 className="text-lg font-semibold text-primary">
-                                Saison {String(season.number).padStart(2, "0")} - {season.name}
-                            </h2>
-                        </div>
-    
                         <div className="flex items-center gap-1">
                             {hasMultipleLobbies && (
-                                <button
-                                    type="button"
-                                    onClick={goToPrevious}
-                                    className="rounded p-0.5 text-quaternary transition-colors hover:bg-secondary hover:text-secondary"
-                                >
-                                    <ChevronLeft className="size-4" />
-                                </button>
+                                <>
+                                    <button
+                                        type="button"
+                                        onClick={goToPrevious}
+                                        className="rounded p-0.5 text-quaternary transition-colors hover:bg-secondary hover:text-secondary"
+                                    >
+                                        <ChevronLeft className="size-4" />
+                                    </button>
+                                    <button
+                                        type="button"
+                                        onClick={goToNext}
+                                        className="rounded p-0.5 text-quaternary transition-colors hover:bg-secondary hover:text-secondary"
+                                    >
+                                        <ChevronRight className="size-4" />
+                                    </button>
+                                </>
                             )}
-                            {hasMultipleLobbies && (
-                                <button
-                                    type="button"
-                                    onClick={goToNext}
-                                    className="rounded p-0.5 text-quaternary transition-colors hover:bg-secondary hover:text-secondary"
-                                >
-                                    <ChevronRight className="size-4" />
-                                </button>
-                            )}
-                            <span className="text-sm font-medium text-secondary">{currentLobby.name}</span>
+                            <h2 className="text-lg font-semibold text-primary">{currentLobby.name}</h2>
                         </div>
+    
+                        <span className="text-sm font-medium text-secondary">
+                            Saison {String(season.number).padStart(2, "0")} - {season.name}
+                        </span>
                     </div>
     
                     {visibleCourses.some(c => c.status === "active" || c.status === "preparing") ? (
@@ -641,7 +639,6 @@ export default function CurrentSeasonWidget() {
                         </div>
                     )}
                 </div>
-    
                 {/* ============================================ */}
                 {/* COURSES LIST */}
                 {/* ============================================ */}

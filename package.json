@@ -41,7 +41,8 @@
         "tailwindcss-react-aria-components": "^2.0.0",
         "tw-merge": "^0.0.1-alpha.3",
         "usehooks-ts": "^3.1.1",
-        "vaul": "^1.1.2"
+        "vaul": "^1.1.2",
+        "zustand": "^5.0.9"
     },
     "devDependencies": {
         "@trivago/prettier-plugin-sort-imports": "^5.2.2",

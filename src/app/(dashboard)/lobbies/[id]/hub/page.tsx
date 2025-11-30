@@ -1,6 +1,8 @@
 "use client";
 
+import { useParams } from "next/navigation";
 import { useState } from "react";
+import { useRouter } from "next/navigation";
 import {
     Plus,
     Trophy01,
@@ -18,6 +20,7 @@ import {
     Flag06,
     Share07,
     DotsVertical,
+    Check,
 } from "@untitledui/icons";
 import { motion, AnimatePresence } from "motion/react";
 import { cx } from "@/utils/cx";
@@ -850,8 +853,8 @@ function SalonHeader({ salon, onInvite, onSettings, onCopyCode, onShowQR }: Salo
                         onClick={onSettings}
                         className="flex items-center gap-2 rounded-lg border border-gray-200 bg-white px-3 py-2 text-sm font-medium text-secondary transition-colors hover:bg-gray-50 dark:border-gray-700 dark:bg-gray-800 dark:hover:bg-gray-700"
                     >
-                        <Settings01 className="size-4" />
-                        Paramètres
+                        <Check className="size-4" />
+                        Terminer saison
                     </button>
                 )}
             </div>
@@ -864,6 +867,10 @@ function SalonHeader({ salon, onInvite, onSettings, onCopyCode, onShowQR }: Salo
 // ============================================================================
 
 export default function SalonOverviewPage() {
+    const params = useParams();
+    const lobbyId = params.id as string;
+ 
+    const router = useRouter();
     const salon = MOCK_SALON;
     const isAdmin = salon.myRole === "admin" || salon.myRole === "co_admin";
 
@@ -875,7 +882,9 @@ export default function SalonOverviewPage() {
     const handleAddCourse = () => console.log("Open add course modal");
     const handleEditCourse = (id: string) => console.log("Edit course:", id);
     const handleDeleteCourse = (id: string) => console.log("Delete course:", id);
-    const handleCourseClick = (id: string) => console.log("Navigate to course:", id);
+    const handleCourseClick = (id: string) => {
+        router.push(`/lobbies/${lobbyId}/hub/${id}`);
+    };
 
     return (
         <div className="mx-auto max-w-7xl px-4 py-6 md:px-6 lg:px-8">
@@ -888,37 +897,37 @@ export default function SalonOverviewPage() {
                 onShowQR={handleShowQR}
             />
 
-          {/* Main content */}
-<div className="flex flex-col gap-4 lg:flex-row lg:gap-6">
-    {/* Left column - 30% */}
-    <div className="flex w-full flex-col gap-4 lg:w-[30%] lg:max-h-[calc(100vh-12rem)] lg:gap-6">
-        {/* Recent winners */}
-        <div className="shrink-0">
-            <RecentWinnersCard winners={salon.recentWinners} />
-        </div>
+            {/* Main content */}
+            <div className="flex flex-col gap-4 lg:flex-row lg:gap-6">
+                {/* Left column - 30% */}
+                <div className="flex w-full flex-col gap-4 lg:w-[30%] lg:max-h-[calc(100vh-12rem)] lg:gap-6">
+                    {/* Recent winners */}
+                    <div className="shrink-0">
+                        <RecentWinnersCard winners={salon.recentWinners} />
+                    </div>
 
-        {/* Season standings */}
-        <div className="min-h-0 flex-1">
-            <SeasonStandingsCard
-                seasonNumber={salon.currentSeason.number}
-                seasonName={salon.currentSeason.name}
-                standings={salon.currentSeason.standings}
-            />
-        </div>
-    </div>
+                    {/* Season standings */}
+                    <div className="min-h-0 flex-1">
+                        <SeasonStandingsCard
+                            seasonNumber={salon.currentSeason.number}
+                            seasonName={salon.currentSeason.name}
+                            standings={salon.currentSeason.standings}
+                        />
+                    </div>
+                </div>
 
-    {/* Right column - 70% */}
-    <div className="flex-1 lg:max-h-[calc(100vh-12rem)]">
-        <CoursesGrid
-            courses={salon.courses}
-            isAdmin={isAdmin}
-            onAddCourse={handleAddCourse}
-            onEditCourse={handleEditCourse}
-            onDeleteCourse={handleDeleteCourse}
-            onCourseClick={handleCourseClick}
-        />
-    </div>
-</div>
+                {/* Right column - 70% */}
+                <div className="flex-1 lg:max-h-[calc(100vh-12rem)]">
+                    <CoursesGrid
+                        courses={salon.courses}
+                        isAdmin={isAdmin}
+                        onAddCourse={handleAddCourse}
+                        onEditCourse={handleEditCourse}
+                        onDeleteCourse={handleDeleteCourse}
+                        onCourseClick={handleCourseClick}
+                    />
+                </div>
+            </div>
         </div>
     );
 }

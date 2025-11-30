@@ -1,4 +1,4 @@
-export interface SubTask {
+export interface Subtask {
     id: string;
     title: string;
     isCompleted: boolean;
@@ -8,36 +8,29 @@ export interface Task {
     id: string;
     title: string;
     isCompleted: boolean;
-    subtasks?: SubTask[];
+    subtasks?: Subtask[];
 }
 
 export interface Participant {
     id: string;
     username: string;
+    avatarUrl?: string;
     progress: number;
     position: number;
-    avatar?: string;
     isCurrentUser?: boolean;
-    car: {
-        name: string;
-        imageUrl: string;
-        color: string;
-    };
 }
+
+export type RaceStatus = "completed" | "active" | "preparing" | "scheduled" | "draft" | "cancelled";
 
 export interface RaceData {
     id: string;
-    salonName: string;
     courseName: string;
+    salonName: string;
+    salonId: string;
     isLive: boolean;
-    endsAt: string;
-    objective: string;
-    tasks: Task[];
-    participants: Participant[];
     myProgress: number;
-    myPosition: number;
-    totalParticipants: number;
-    tasksCompleted: number;
-    totalTasks: number;
-    carImageUrl: string;
+    endsAt: string;
+    status: RaceStatus;
+    participants: Participant[];
+    tasks: Task[];
 }

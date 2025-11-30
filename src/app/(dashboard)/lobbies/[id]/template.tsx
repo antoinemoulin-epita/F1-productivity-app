@@ -8,7 +8,7 @@ import { useEffect, useRef, useState } from "react";
 const routeOrder = [
     "/lobbies/lobby/hub",
     "/lobbies/lobby/ranks", 
-    "/lobbies/lobby/race",
+    "/lobbies/lobby/races",
     "/lobbies/lobby/settings",
 ];
 
