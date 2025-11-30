@@ -177,7 +177,7 @@ const SalonCardGrid = ({ salon }: { salon: Salon }) => {
 
     return (
         <a
-            href={`/lobbies/${salon.id}`}
+            href={`/lobbies/race`}
             className="group relative flex flex-col overflow-hidden rounded-2xl bg-gray-100 ring-1 ring-primary/10 transition-all duration-300 hover:-translate-y-1 hover:shadow-xs hover:shadow-black/20 hover:ring-primary/20 dark:bg-gray-900"
         >
             {/* Gradient Header Zone */}
@@ -252,7 +252,7 @@ const SalonCardList = ({ salon }: { salon: Salon }) => {
 
     return (
         <a
-            href={`/lobbies/${salon.id}`}
+            href={`/lobbies/race`}
             className="group flex items-center gap-4 rounded-xl bg-primary p-3 ring-1 ring-primary/10 transition-all duration-200 hover:shadow-lg hover:ring-primary/20"
         >
             <div className="relative h-14 w-14 flex-shrink-0 rounded-lg" style={GRADIENT_PRESETS[salon.gradient]}>
