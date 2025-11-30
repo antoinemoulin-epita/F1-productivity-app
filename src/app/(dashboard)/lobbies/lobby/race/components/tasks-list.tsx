@@ -156,8 +156,7 @@ export function TasksList({ tasks, onToggleTask, onToggleSubtask }: TasksListPro
                 {/* Header */}
                 <div className="flex items-center justify-between border-b border-gray-100 px-5 py-4 dark:border-gray-700/50">
                     <div className="flex items-center gap-2">
-                        <Flag06 className="size-5 text-brand-600" />
-                        <h2 className="text-base font-semibold text-primary">Tâches</h2>
+                         <h2 className="text-base font-semibold text-primary">Tâches</h2>
                     </div>
                     <span className="text-sm text-tertiary">
                         {completedCount}/{tasks.length} terminées

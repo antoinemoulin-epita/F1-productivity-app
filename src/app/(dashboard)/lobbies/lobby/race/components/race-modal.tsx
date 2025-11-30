@@ -229,7 +229,7 @@ function RaceLane({ participant, index, isCurrentUser = false }: RaceLaneProps) 
                  </motion.div>
 
                 {/* Position badge */}
-                <div className="absolute left-4 top-1/2 -translate-y-1/2">
+                <div className="absolute left-6 top-1/2 -translate-y-1/2">
                     <span
                         className={cx(
                             "text-xs font-bold tabular-nums",

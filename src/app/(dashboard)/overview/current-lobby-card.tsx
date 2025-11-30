@@ -9,7 +9,8 @@ import {
     Clock, 
     Lock01,
     ChevronRight as ChevronRightIcon,
-    Play
+    Play,
+    Plus
 } from "@untitledui/icons";
 import { motion, AnimatePresence } from "motion/react";
 import { cx } from "@/utils/cx";
@@ -191,6 +192,23 @@ const MOCK_LOBBIES: Lobby[] = [
                 { id: "1", username: "Antoine", points: 85, position: 1, racesWon: 2, seasonProgress: 61, isCurrentUser: true },
                 { id: "2", username: "Emma", points: 72, position: 2, racesWon: 0, seasonProgress: 50, isCurrentUser: false },
                 { id: "3", username: "Lucas", points: 58, position: 3, racesWon: 0, seasonProgress: 38, isCurrentUser: false },
+            ],
+        },
+    },
+    {
+        id: "nouveau-groupe",
+        name: "Nouveau Groupe",
+        mySeasonPosition: 1,
+        myCompletedCourses: 0,
+        currentSeason: {
+            id: "season-new",
+            number: 1,
+            name: "Saison Inaugurale",
+            startedAt: "2025-12-01T09:00:00Z",
+            courses: [], // No courses yet
+            standings: [
+                { id: "1", username: "Antoine", points: 0, position: 1, racesWon: 0, seasonProgress: 0, isCurrentUser: true },
+                { id: "2", username: "Marie", points: 0, position: 2, racesWon: 0, seasonProgress: 0, isCurrentUser: false },
             ],
         },
     },
@@ -379,7 +397,8 @@ function SeasonStandings({
     standings 
 }: SeasonStandingsProps) {
     const topParticipants = standings.slice(0, 5);
-    const progressPercent = Math.round((completedCourses / totalCourses) * 100);
+    const progressPercent = totalCourses > 0 ? Math.round((completedCourses / totalCourses) * 100) : 0;
+    const hasCourses = totalCourses > 0;
 
     return (
         <div className="space-y-5">
@@ -397,18 +416,23 @@ function SeasonStandings({
 
                 <div className="flex flex-col items-end">
                     <span className="text-xs font-medium text-tertiary">Progression</span>
-                    <div className="flex items-baseline gap-1">
-                        <span className="font-mono text-2xl font-bold text-primary">{completedCourses}</span>
-                        <span className="text-sm text-tertiary">/ {totalCourses} courses</span>
-                    </div>
+                    {hasCourses ? (
+                        <div className="flex items-baseline gap-1">
+                            <span className="font-mono text-2xl font-bold text-primary">{completedCourses}</span>
+                            <span className="text-sm text-tertiary">/ {totalCourses} courses</span>
+                        </div>
+                    ) : (
+                        <span className="text-sm text-tertiary">En attente</span>
+                    )}
                 </div>
             </div>
 
-            {/* Segmented track bar with position markers */}
-            <div className="relative py-6 pb-0">
-                {/* Position markers above the track */}
-                <div className="absolute inset-x-0 top-0 h-5">
-                    {topParticipants.map((p) => (
+            {/* Segmented track bar with position markers - only show if there are courses */}
+            {hasCourses && (
+                <div className="relative py-6 pb-0">
+                    {/* Position markers above the track */}
+                    <div className="absolute inset-x-0 top-0 h-5">
+                        {topParticipants.map((p) => (
                         <motion.div
                             key={p.id}
                             className="absolute bottom-0"
@@ -453,6 +477,7 @@ function SeasonStandings({
                     <span>{totalCourses - completedCourses} courses restantes</span>
                 </div>
             </div>
+            )}
 
             {/* Leaderboard */}
             <div className="grid grid-cols-5 gap-2">
@@ -565,15 +590,14 @@ export default function CurrentSeasonWidget() {
                 {/* ============================================ */}
                 {/* HEADER */}
                 {/* ============================================ */}
-                <div className="flex items-center justify-between border-b border-gray-100 px-5 py-4 dark:border-gray-700/50">
+                <div className="shrink-0 flex items-center justify-between border-b border-gray-100 px-5 py-4 dark:border-gray-700/50">
                     <div className="flex flex-col gap-0.5">
                         <div className="flex items-center gap-2">
                             <h2 className="text-lg font-semibold text-primary">
                                 Saison {String(season.number).padStart(2, "0")} - {season.name}
                             </h2>
                         </div>
-
-                        {/* Salon selector */}
+    
                         <div className="flex items-center gap-1">
                             {hasMultipleLobbies && (
                                 <button
@@ -584,7 +608,6 @@ export default function CurrentSeasonWidget() {
                                     <ChevronLeft className="size-4" />
                                 </button>
                             )}
-                            <span className="text-sm font-medium text-secondary">{currentLobby.name}</span>
                             {hasMultipleLobbies && (
                                 <button
                                     type="button"
@@ -594,55 +617,87 @@ export default function CurrentSeasonWidget() {
                                     <ChevronRight className="size-4" />
                                 </button>
                             )}
+                            <span className="text-sm font-medium text-secondary">{currentLobby.name}</span>
                         </div>
                     </div>
-
-                    {/* Active indicator */}
-                    <div className="flex items-center gap-1.5 rounded-full bg-green-50 px-2.5 py-1 dark:bg-green-950/50">
-                        <span className="relative flex size-2">
-                            <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-green-400 opacity-75" />
-                            <span className="relative inline-flex size-2 rounded-full bg-green-500" />
-                        </span>
-                        <span className="text-sm font-semibold text-green-600 dark:text-green-400">Active</span>
-                    </div>
+    
+                    {visibleCourses.some(c => c.status === "active" || c.status === "preparing") ? (
+                        <div className="flex items-center gap-1.5 rounded-full bg-green-50 px-2.5 py-1 dark:bg-green-950/50">
+                            <span className="relative flex size-2">
+                                <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-green-400 opacity-75" />
+                                <span className="relative inline-flex size-2 rounded-full bg-green-500" />
+                            </span>
+                            <span className="text-sm font-semibold text-green-600 dark:text-green-400">Active</span>
+                        </div>
+                    ) : visibleCourses.length === 0 ? (
+                        <div className="flex items-center gap-1.5 rounded-full bg-gray-100 px-2.5 py-1 dark:bg-gray-700/50">
+                            <span className="size-2 rounded-full bg-gray-400 dark:bg-gray-500" />
+                            <span className="text-sm font-medium text-gray-500 dark:text-gray-400">En attente</span>
+                        </div>
+                    ) : (
+                        <div className="flex items-center gap-1.5 rounded-full bg-amber-50 px-2.5 py-1 dark:bg-amber-950/50">
+                            <span className="size-2 rounded-full bg-amber-500" />
+                            <span className="text-sm font-medium text-amber-600 dark:text-amber-400">Planifiée</span>
+                        </div>
+                    )}
                 </div>
-
+    
                 {/* ============================================ */}
                 {/* COURSES LIST */}
                 {/* ============================================ */}
-                <div className="flex-1 overflow-y-auto p-4 max-h-[350px]">
-                    <div className="mb-3 flex items-center justify-between">
-                        <h3 className="text-sm font-semibold uppercase tracking-wide text-secondary">
-                            Courses
-                        </h3>
-                        <span className="text-xs text-tertiary">
-                            {completedCourses}/{visibleCourses.length} terminées
-                        </span>
-                    </div>
-
-                    <div className="flex flex-col gap-2">
-                        <AnimatePresence mode="popLayout">
-                            {visibleCourses.map((course, index) => (
-                                <motion.div
-                                    key={course.id}
-                                    initial={{ opacity: 0, y: 10 }}
-                                    animate={{ opacity: 1, y: 0 }}
-                                    transition={{ delay: index * 0.05 }}
-                                >
-                                    <CourseItem
-                                        course={course}
-                                        onClick={handleCourseClick}
-                                    />
-                                </motion.div>
-                            ))}
-                        </AnimatePresence>
-                    </div>
+                <div className="min-h-0 flex-1 overflow-y-auto p-4">
+                    {visibleCourses.length > 0 ? (
+                        <>
+                            <div className="mb-3 flex items-center justify-between">
+                                <h3 className="text-sm font-semibold uppercase tracking-wide text-secondary">
+                                    Courses
+                                </h3>
+                                <span className="text-xs text-tertiary">
+                                    {completedCourses}/{visibleCourses.length} terminées
+                                </span>
+                            </div>
+    
+                            <div className="flex flex-col gap-2">
+                                <AnimatePresence mode="popLayout">
+                                    {visibleCourses.map((course, index) => (
+                                        <motion.div
+                                            key={course.id}
+                                            initial={{ opacity: 0, y: 10 }}
+                                            animate={{ opacity: 1, y: 0 }}
+                                            transition={{ delay: index * 0.05 }}
+                                        >
+                                            <CourseItem
+                                                course={course}
+                                                onClick={handleCourseClick}
+                                            />
+                                        </motion.div>
+                                    ))}
+                                </AnimatePresence>
+                            </div>
+                        </>
+                    ) : (
+                        <motion.div
+                            initial={{ opacity: 0, scale: 0.95 }}
+                            animate={{ opacity: 1, scale: 1 }}
+                            className="flex h-full flex-col items-center justify-center px-6 py-10 text-center"
+                        >
+                            <div className="flex size-12 items-center justify-center rounded-full bg-gray-100 dark:bg-gray-700/50">
+                                <Flag06 className="size-6 text-gray-400 dark:text-gray-500" />
+                            </div>
+                            <h3 className="mt-4 text-sm font-semibold text-primary">
+                                Aucune course
+                            </h3>
+                            <p className="mt-1 max-w-[220px] text-sm text-tertiary">
+                                Les courses de cette saison n'ont pas encore été créées.
+                            </p>
+                        </motion.div>
+                    )}
                 </div>
-
+    
                 {/* ============================================ */}
                 {/* SEASON STANDINGS FOOTER */}
                 {/* ============================================ */}
-                <div className="border-t border-gray-100 bg-gray-50/80 p-5 dark:border-gray-700/50 dark:bg-gray-800/50">
+                <div className="shrink-0 border-t border-gray-100 bg-gray-50/80 p-5 dark:border-gray-700/50 dark:bg-gray-800/50">
                     <SeasonStandings
                         position={currentLobby.mySeasonPosition}
                         totalParticipants={season.standings.length}

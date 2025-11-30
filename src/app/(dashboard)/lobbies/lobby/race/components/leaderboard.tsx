@@ -16,8 +16,7 @@ export function Leaderboard({ participants }: LeaderboardProps) {
                 {/* Header */}
                 <div className="flex items-center justify-between border-b border-gray-100 px-5 py-4 dark:border-gray-700/50">
                     <div className="flex items-center gap-2">
-                        <Trophy01 className="size-5 text-amber-500" />
-                        <h2 className="text-base font-semibold text-primary">Classement</h2>
+                         <h2 className="text-base font-semibold text-primary">Classement</h2>
                     </div>
                     <div className="flex items-center gap-1 text-sm text-tertiary">
                         <Users01 className="size-4" />

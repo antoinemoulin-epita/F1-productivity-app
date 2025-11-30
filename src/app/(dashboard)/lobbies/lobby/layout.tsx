@@ -1,43 +1,50 @@
 "use client";
 
-import { Award01, CheckSquare, HomeLine, Settings02 } from "@untitledui/icons";
+import { Award01, Camera01, HomeLine, Settings02 } from "@untitledui/icons";
 import { motion } from "framer-motion";
-import { useState } from "react";
+import { usePathname, useRouter } from "next/navigation";
 import { Tooltip, TooltipTrigger } from "@/components/base/tooltip/tooltip";
 
 interface LayoutLobbyProps {
     children: React.ReactNode;
 }
 
+const navItems = [
+    { id: "lobby", path: "/lobbies/lobby/hub", Icon: HomeLine, label: "Général" },
+    { id: "ranks", path: "/lobbies/lobby/ranks", Icon: Award01, label: "Classements" },
+    { id: "race", path: "/lobbies/lobby/race", Icon: Camera01, label: "Course" },
+    { id: "settings", path: "/lobbies/lobby/settings", Icon: Settings02, label: "Paramètres" },
+];
+
 const LayoutLobby = ({ children }: LayoutLobbyProps) => {
-    const [selected, setSelected] = useState<string>("general");
+    const pathname = usePathname();
+    const router = useRouter();
 
-    const navItems = [
-        { id: "general", Icon: HomeLine, label: "Général" },
-        { id: "classements", Icon: Award01, label: "Classements" },
-        { id: "taches", Icon: CheckSquare, label: "Tâches" },
-        { id: "settings", Icon: Settings02, label: "Paramètres" },
-    ];
+    // Trouver l'index de la route active
+    const selectedIndex = navItems.findIndex(item => pathname?.startsWith(item.path));
+    const currentIndex = selectedIndex >= 0 ? selectedIndex : 0;
 
-    const selectedIndex = navItems.findIndex(item => item.id === selected);
+    const handleNavigation = (path: string) => {
+        router.push(path);
+    };
 
     return (
-        <div className="min-w-screen flex">
+        <div className="min-w-screen flex min-h-screen">
             {/* Zone réservée pour la navigation */}
             <aside className="w-20 flex-shrink-0 relative">
                 <section className="flex flex-col gap-0 absolute left-9 top-1/2 -translate-y-1/2">
-                    {navItems.map(({ id, Icon, label }, index) => {
-                        const distance = Math.abs(index - selectedIndex);
-                        const offset = (index - selectedIndex) * 20;
-                        const isSelected = selected === id;
-                        
+                    {navItems.map(({ id, path, Icon, label }, index) => {
+                        const distance = Math.abs(index - currentIndex);
+                        const offset = (index - currentIndex) * 20;
+                        const isSelected = currentIndex === index;
+
                         const opacity = isSelected ? 1 : Math.max(0, 1 - distance * 0.4);
-                        
+
                         return (
                             <Tooltip key={id} title={label} placement="right">
                                 <TooltipTrigger asChild>
                                     <motion.button
-                                        onClick={() => setSelected(id)}
+                                        onClick={() => handleNavigation(path)}
                                         animate={{
                                             y: offset,
                                             opacity: opacity,
@@ -70,9 +77,11 @@ const LayoutLobby = ({ children }: LayoutLobbyProps) => {
                     })}
                 </section>
             </aside>
-            
-            {/* Contenu principal */}
-            <main className="flex-1">{children}</main>
+
+            {/* Contenu principal - l'animation est gérée par template.tsx */}
+            <main className="flex-1 relative overflow-hidden">
+                {children}
+            </main>
         </div>
     );
 };

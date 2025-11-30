@@ -1,20 +1,29 @@
 "use client";
 
 import React from "react";
-import { useTheme } from "next-themes";
 
 interface LogoProps {
     className?: string;
 }
 
 const Logo = ({ className = "" }: LogoProps) => {
-    const { theme } = useTheme();
-    
-     const logoSrc = theme === "dark" ? "/logo/light-logo.svg" : "/logo/dark-logo.svg";
-    
     return (
-        <div className={"cursor-pointer " + className} onClick={() => (window.location.href = "/")}>
-            <img src={logoSrc} alt="Logo" className="w-24"/>
+        <div 
+            className={"cursor-pointer relative w-24 " + className} 
+            onClick={() => (window.location.href = "/")}
+        >
+            {/* Logo pour le mode clair - visible par défaut, caché en dark mode */}
+            <img
+                src="/logo/dark-logo.svg"
+                alt="Logo"
+                className="w-24 dark:hidden"
+            />
+            {/* Logo pour le mode sombre - caché par défaut, visible en dark mode */}
+            <img
+                src="/logo/light-logo.svg"
+                alt="Logo"
+                className="w-24 hidden dark:block"
+            />
         </div>
     );
 };

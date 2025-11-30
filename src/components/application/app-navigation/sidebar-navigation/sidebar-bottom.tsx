@@ -4,13 +4,16 @@ import { useState, useEffect } from "react";
 import { AnimatePresence, motion } from "framer-motion";
 import { usePathname } from "next/navigation";
 import { Link } from "react-aria-components";
+import { Lock01 } from "@untitledui/icons";
 
 interface BottomBarItem {
     label: string;
     href: string;
     icon: React.ReactNode;
-    iconActive?: React.ReactNode; // Version solid/fill pour l'état actif
+    iconActive?: React.ReactNode;
     badge?: string;
+    isLocked?: boolean;
+    lockedLabel?: string;
 }
 
 interface BottomBarProps {
@@ -37,14 +40,36 @@ export const BottomBar = ({ items }: BottomBarProps) => {
     const normalizePath = (path: string) => path.replace(/\/+/g, "/");
     const currentPath = normalizePath(pathname);
 
-    // Mobile: Full-width fixed bottom bar (style Instagram)
+    // Mobile: Full-width fixed bottom bar
     if (isMobile) {
         return (
             <nav className="fixed inset-x-0 bottom-0 z-50 border-t border-gray-200 bg-white pb-[env(safe-area-inset-bottom)] dark:border-gray-800 dark:bg-gray-950">
                 <ul className="flex h-16 items-center justify-around">
                     {items.map((item) => {
                         const normalizedHref = normalizePath(item.href);
-                        const isActive = currentPath === normalizedHref || currentPath.startsWith(normalizedHref + "/");
+                        const isActive = !item.isLocked && (currentPath === normalizedHref || currentPath.startsWith(normalizedHref + "/"));
+
+                        // Locked item
+                        if (item.isLocked) {
+                            return (
+                                <li key={item.href} className="flex-1">
+                                    <div className="flex h-full w-full cursor-not-allowed flex-col items-center justify-center gap-1 opacity-40">
+                                        <div className="relative">
+                                            <div className="text-gray-300 dark:text-gray-600">
+                                                {item.icon}
+                                            </div>
+                                            {/* Mini lock badge */}
+                                            <div className="absolute -top-1 -right-1 flex h-3.5 w-3.5 items-center justify-center rounded-full bg-gray-200 dark:bg-gray-700">
+                                                <Lock01 className="h-2 w-2 text-gray-400 dark:text-gray-500" />
+                                            </div>
+                                        </div>
+                                        <span className="text-[10px] font-medium text-gray-300 dark:text-gray-600">
+                                            {item.lockedLabel || "Bientôt"}
+                                        </span>
+                                    </div>
+                                </li>
+                            );
+                        }
 
                         return (
                             <li key={item.href} className="flex-1">
@@ -53,7 +78,6 @@ export const BottomBar = ({ items }: BottomBarProps) => {
                                     className="flex h-full w-full flex-col items-center justify-center gap-1 active:scale-95 active:opacity-70"
                                 >
                                     <div className="relative">
-                                        {/* Icône solid si active et disponible, sinon outline */}
                                         <div
                                             className={`transition-all duration-150 ${
                                                 isActive
@@ -115,7 +139,44 @@ export const BottomBar = ({ items }: BottomBarProps) => {
                         <ul className="flex items-center gap-5">
                             {items.map((item, index) => {
                                 const normalizedHref = normalizePath(item.href);
-                                const isActive = currentPath === normalizedHref || currentPath.startsWith(normalizedHref + "/");
+                                const isActive = !item.isLocked && (currentPath === normalizedHref || currentPath.startsWith(normalizedHref + "/"));
+
+                                // Locked item
+                                if (item.isLocked) {
+                                    return (
+                                        <motion.li
+                                            key={item.href}
+                                            initial={{ y: 20, opacity: 0 }}
+                                            animate={{ y: 0, opacity: 1 }}
+                                            transition={{
+                                                delay: 0.03 * index,
+                                                type: "spring",
+                                                damping: 20,
+                                                stiffness: 300,
+                                            }}
+                                        >
+                                            <div
+                                                className="group relative flex min-w-[60px] cursor-not-allowed flex-col items-center gap-1 rounded-3xl px-3.5 py-2.5 opacity-40"
+                                                title={item.lockedLabel || "Bientôt disponible"}
+                                            >
+                                                <div className="relative z-10 flex flex-col items-center gap-1">
+                                                    <div className="relative">
+                                                        <div className="text-gray-300 dark:text-gray-600">
+                                                            {item.icon}
+                                                        </div>
+                                                        {/* Mini lock badge */}
+                                                        <div className="absolute -top-1.5 -right-1.5 flex h-4 w-4 items-center justify-center rounded-full bg-gray-200 dark:bg-gray-700">
+                                                            <Lock01 className="h-2.5 w-2.5 text-gray-400 dark:text-gray-500" />
+                                                        </div>
+                                                    </div>
+                                                    <span className="text-xs text-gray-300 dark:text-gray-600">
+                                                        {item.lockedLabel || "Bientôt"}
+                                                    </span>
+                                                </div>
+                                            </div>
+                                        </motion.li>
+                                    );
+                                }
 
                                 return (
                                     <motion.li

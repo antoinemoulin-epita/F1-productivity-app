@@ -26,14 +26,14 @@ const LayoutMain = ({ children }: LayoutMainProps) => (
                     href: "/lobbies",
                     icon: <HomeLine className="h-6 w-6 text-black dark:text-white" />,
                     iconActive: <HomeLineSolid className="h-6 w-6 text-black dark:text-white" />,
-
                 },
                 {
                     label: "Magasin",
                     href: "/store",
-                    icon: <ShoppingBag02 className="h-6 w-6 text-black dark:text-white" />,
-                    iconActive: <ShoppingBag02Solid className="h-6 w-6 text-black dark:text-white" />,
-
+                    icon: <ShoppingBag02 className="h-6 w-6" />,
+                    iconActive: <ShoppingBag02Solid className="h-6 w-6" />,
+                    isLocked: true,
+                    lockedLabel: "Bientôt",
                 },
                 {
                     label: "Paramètres",
