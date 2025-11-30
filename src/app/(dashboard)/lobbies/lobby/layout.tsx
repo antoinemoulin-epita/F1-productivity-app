@@ -28,10 +28,10 @@ const LayoutLobby = ({ children }: LayoutLobbyProps) => {
                 <section className="flex flex-col gap-0 absolute left-9 top-1/2 -translate-y-1/2">
                     {navItems.map(({ id, Icon, label }, index) => {
                         const distance = Math.abs(index - selectedIndex);
-                        const offset = (index - selectedIndex) * 24;
+                        const offset = (index - selectedIndex) * 20;
                         const isSelected = selected === id;
                         
-                        const opacity = isSelected ? 1 : Math.max(0, 1 - distance * 0.35);
+                        const opacity = isSelected ? 1 : Math.max(0, 1 - distance * 0.4);
                         
                         return (
                             <Tooltip key={id} title={label} placement="right">
@@ -53,7 +53,7 @@ const LayoutLobby = ({ children }: LayoutLobbyProps) => {
                                     >
                                         <motion.div
                                             animate={{
-                                                scale: isSelected ? 0.85 : 0.75,
+                                                scale: isSelected ? 0.9 : 0.75,
                                             }}
                                             transition={{
                                                 type: "spring",
